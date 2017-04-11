@@ -10,7 +10,7 @@ let secondRate;
 let currencyRateTemp;
 
 
-console.log("just Some test12312");
+console.log("just Some test");
 
 
 function getCurrencyList() {
