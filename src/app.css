@@ -1,0 +1,37 @@
+.wrapper{
+    width:800px;
+}
+
+
+.mainSection{
+    float: left;
+}
+
+.sectionContainer{
+    float:left;
+    width: 100%;
+}
+
+.firstCurrency, .secondCurrency{
+    float: left;
+    width: 30%;
+
+}
+
+.widgetLable {
+    float:left;
+    width:100%;
+}
+
+.widgetContent {
+    float:left;
+    width:100%;
+    margin: 10px;
+}
+select{
+    height: 40px;
+    width: 210px;
+}
+option{
+    width: 210px;
+}

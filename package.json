@@ -1,0 +1,18 @@
+{
+  "name": "test",
+  "version": "0.0.1",
+  "description": "just some test project: webpack settings, rest API",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "webpack --config webpack.config.dev.js",
+    "build": "webpack --config webpack.config.prod.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bower-webpack-plugin": "^0.1.9",
+    "node-rest-client": "^3.1.0"
+  }
+}
