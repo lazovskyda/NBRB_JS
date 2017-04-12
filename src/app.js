@@ -110,3 +110,20 @@ getCurrencyList();
 //currencyInit();
 //getCurrencyRates();
 
+
+
+//EXAMPLE OF GLOBAL ACCESS TO A MODULE FROM PASHA
+(function (application, root) {
+
+    var boo = function () {
+    };
+
+    application['foo'] = function () {
+        boo();
+        console.log('sssss');
+    };
+
+    root['app'] = application;
+})({}, window);
+
+app.foo();
