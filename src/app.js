@@ -1,5 +1,8 @@
 'use strict';
 
+
+(function(){
+
 const NBRBURL = "http://www.nbrb.by/API/ExRates/";
 let Client = require('node-rest-client').Client;
 let client = new Client();
@@ -10,10 +13,8 @@ let secondRate;
 let currencyRateTemp;
 
 
-console.log("just Some test");
 
-
-function getCurrencyList() {
+function initCurrencyList() {
 
     client.registerMethod("jsonMethod", NBRBURL + "Currencies/", "GET");
 
@@ -103,27 +104,29 @@ function currencyInit() {
 //let m =145;
 //document.getElementById("testButton").addEventListener("click", getCurrencyRatesInit);
 
-document.getElementById("testButton").addEventListener("click", getCurrencyList);
+document.getElementById("testButton").addEventListener("click", initCurrencyList);
 
-getCurrencyList();
+initCurrencyList();
 
 //currencyInit();
 //getCurrencyRates();
 
+})();
 
+//!!!!!!!!!EXAMPLE OF GLOBAL ACCESS TO A MODULE FROM PASHA
+//(function (application, root) {
+//
+//    var boo = function () {
+//    };
+//
+//    application['foo'] = function () {
+//        boo();
+//        console.log('sssss');
+//    };
+//
+//    root['app'] = application;
+//})({}, window);
+//
+//app.foo();
 
-//EXAMPLE OF GLOBAL ACCESS TO A MODULE FROM PASHA
-(function (application, root) {
-
-    var boo = function () {
-    };
-
-    application['foo'] = function () {
-        boo();
-        console.log('sssss');
-    };
-
-    root['app'] = application;
-})({}, window);
-
-app.foo();
+//!!!!!!!!!END EXAMPLE OF GLOBAL ACCESS TO A MODULE FROM PASHA
