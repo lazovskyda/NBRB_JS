@@ -1,117 +1,151 @@
 'use strict';
 
 
-(function(){
+(function () {
 
-const NBRBURL = "http://www.nbrb.by/API/ExRates/";
-let Client = require('node-rest-client').Client;
-let client = new Client();
+    const NBRBURL = "http://www.nbrb.by/API/ExRates/";
+    let Client = require('node-rest-client').Client;
+    let client = new Client();
 
-let currencesID = [];
-let firstRate;
-let secondRate;
-let currencyRateTemp;
+    let currencesID = [];
+    let firstRate;
+    let secondRate;
+    let currencyRateTemp;
 
+    var validCurrences = [];
 
+    function initCurrencyList() {
 
-function initCurrencyList() {
+        client.registerMethod("jsonMethod", NBRBURL + "Currencies/", "GET");
 
-    client.registerMethod("jsonMethod", NBRBURL + "Currencies/", "GET");
+        client.methods.jsonMethod(function (data, response) {
+            delUndefItem("firstCurrency");
+            delUndefItem("secondCurrency");
+            let count = 0;
 
-    client.methods.jsonMethod(function (data, response) {
-        delUndefItem("firstCurrency");
-        delUndefItem("secondCurrency");
-
-
-        for (let i = 0; i < data.length; i++) {
-
-            currencesID[i] = data[i].Cur_ID;
-
-            let z = document.createElement("option");
-            z.setAttribute("value", data[i].Cur_ID);
-            let t = document.createTextNode(data[i].Cur_Name);
-            let z2 = z.cloneNode();
-            let t2 = t.cloneNode();
-
-            z.appendChild(t);
-            z2.appendChild(t2);
-
-            document.getElementById("firstCurrency").appendChild(z);
-            document.getElementById("secondCurrency").appendChild(z2);
-        }
-
-        getCurrencyRates(145)
-            .then((currencyRate) => {
-                firstRate = currencyRate;
-                console.log("firstRate=" + firstRate);
-            })
-            .catch(error => console.log(error));
+            for (let i = 0; i < data.length; i++) {
 
 
-        getCurrencyRates(145)
-            .then((currencyRate) => {
-                secondRate = currencyRate;
-                console.log("firstRate=" +  secondRate);
-            })
-            .catch(error => console.log(error));
 
-    });
 
-}
+//check value if haven't value then skip
+                (function checkValue(currencyID) {
 
-function getCurrencyRates(currencyID) {
-    console.info(currencyID);
-    let promise = new Promise(function (resolve, reject) {
-        client.registerMethod("jsonMethod", NBRBURL + "Rates/" + currencyID, "GET");
+                    getCurrencyRates(currencyID)
+                        .then((currencyRate) => {
 
-        let req = client.methods.jsonMethod(function (data, response) {
-            console.log(response);
-            if (response.statusCode == 404) {
-                reject('Error 404');
+                            let obj = {};
+                            obj.id = currencyID;
+                            obj.rate = currencyRate;
+                            validCurrences[count] = obj;
+                            console.log("valid");
+                            console.log(obj[count]);
+                            console.log ("_________COUNTCHECK="+count);
+
+
+
+                            let z = document.createElement("option");
+                            z.setAttribute("value", count);
+                            let t = document.createTextNode(data[i].Cur_Name);
+                            let z2 = z.cloneNode();
+                            let t2 = t.cloneNode();
+
+                            z.appendChild(t);
+                            z2.appendChild(t2);
+
+                            document.getElementById("firstCurrency").appendChild(z);
+                            document.getElementById("secondCurrency").appendChild(z2);
+
+
+                            if(count == 0){
+                                calculateRate();
+                            }
+
+                            count++;
+
+                        })
+                        .catch(error =>
+
+                            console.log(error)
+                    );
+
+
+                })(data[i].Cur_ID);
+
             }
-            else {
-                resolve(data.Cur_OfficialRate);
-            }
+            
         });
 
-    });
+    }
 
-    return promise;
-}
+    function getCurrencyRates(currencyID) {
+        //console.info(currencyID);
+        let promise = new Promise(function (resolve, reject) {
+            client.registerMethod("jsonMethod", NBRBURL + "Rates/" + currencyID, "GET");
+
+            let req = client.methods.jsonMethod(function (data, response) {
+                console.log(response);
+                if (response.statusCode == 404) {
+                    reject('Error 404');
+                }
+                else {
+                    resolve(data.Cur_OfficialRate);
+                }
+            });
+
+        });
+
+        return promise;
+    }
 
 
-function delUndefItem(elementID) {
-    // console.log("delUndefItem");
-    if (document.getElementById(elementID).firstElementChild.value === "undefined") {
-        document.getElementById(elementID).firstElementChild.remove();
+    function delUndefItem(elementID) {
+        if (document.getElementById(elementID).firstElementChild.value === "undefined") {
+            document.getElementById(elementID).firstElementChild.remove();
+
+        }
+    }
+
+
+    // document.getElementById("testButton").addEventListener("click", initCurrencyList);
+
+    function check() {
+
+        console.log(`---------------------------ïûù----------------------------------------`);
+
+        console.log(validCurrences);
 
     }
-}
 
-//temp
-/*function getCurrencyRatesInit() {
- let m = 145;
- getCurrencyRates(m);
- }*/
-//-temp end
+    initCurrencyList();
+
+    setTimeout(check, 5000);
 
 
-function currencyInit() {
-    //getCurrencyRates
-}
+    document.getElementById("firstCurrency").onchange = function(){
+        calculateRate();
+    }
+    document.getElementById("secondCurrency").onchange = function(){
+        calculateRate();
+    }
 
 
-//let m =145;
-//document.getElementById("testButton").addEventListener("click", getCurrencyRatesInit);
 
-document.getElementById("testButton").addEventListener("click", initCurrencyList);
+    function calculateRate(){
+        let totalRate;
+        totalRate = validCurrences[document.getElementById("firstCurrency").value].rate / validCurrences[document.getElementById("secondCurrency").value].rate;
+        document.getElementById("outputCurrency").innerHTML = totalRate;
+    }
 
-initCurrencyList();
-
-//currencyInit();
-//getCurrencyRates();
 
 })();
+
+
+
+
+
+//document.getElementById("testButton").addEventListener("click", checkSelect);
+
 
 //!!!!!!!!!EXAMPLE OF GLOBAL ACCESS TO A MODULE FROM PASHA
 //(function (application, root) {
