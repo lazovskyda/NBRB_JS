@@ -1,11 +1,16 @@
 'use strict';
-
+//require('./testImportCSS.css');
+//import './testImportCSS.css'
+//require('../node_modules/js-datepicker/datepicker.css');
 
 (function () {
 
     const NBRBURL = "http://www.nbrb.by/API/ExRates/";
     let Client = require('node-rest-client').Client;
     let client = new Client();
+
+//    let Datepicker = require('js-datepicker');
+    //let TestImport = require('./testImport');
 
     let currencesID = [];
     let firstRate;
@@ -38,11 +43,6 @@
                             obj.id = currencyID;
                             obj.rate = currencyRate;
                             validCurrences[count] = obj;
-                            console.log("valid");
-                            console.log(obj[count]);
-                            console.log ("_________COUNTCHECK="+count);
-
-
 
                             let z = document.createElement("option");
                             z.setAttribute("value", count);
@@ -73,7 +73,7 @@
                 })(data[i].Cur_ID);
 
             }
-            
+
         });
 
     }
@@ -124,10 +124,10 @@
 
     document.getElementById("firstCurrency").onchange = function(){
         calculateRate();
-    }
+    };
     document.getElementById("secondCurrency").onchange = function(){
         calculateRate();
-    }
+    };
 
 
 

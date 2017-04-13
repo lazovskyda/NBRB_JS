@@ -10,6 +10,15 @@ module.exports = {
         path: path.join(__dirname, 'output'),
         filename: "main.js"
     },
-    watch: true
+    watch: true,
+
+    // provide decomposition of js file in browser debugger
+    devtool: "source-map",
+
+    module:{
+        loaders: [
+            { test: /\.css$/, loader: "style-loader!css-loader" }
+        ]
+    }
 
 };

@@ -13,6 +13,13 @@
   "license": "ISC",
   "dependencies": {
     "bower-webpack-plugin": "^0.1.9",
+    "js-datepicker": "^1.4.1",
     "node-rest-client": "^3.1.0"
+  },
+  "devDependencies": {
+    "css-loader": "^0.28.0",
+    "grunt-webpack": "^2.0.1",
+    "style-loader": "^0.16.1",
+    "webpack": "^2.3.3"
   }
 }
