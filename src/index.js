@@ -1,2 +1,2 @@
-import './app.js'
+//import './app.js'
 import './test.js'
