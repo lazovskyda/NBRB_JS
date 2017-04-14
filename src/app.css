@@ -1,6 +1,6 @@
 .wrapper{
-    width:800px;
-}
+     width:800px;
+ }
 
 
 .mainSection{
@@ -34,4 +34,10 @@ select{
 }
 option{
     width: 210px;
+}
+.display img{
+    display:none;
+}
+.visibility img{
+    visibility: hidden;
 }

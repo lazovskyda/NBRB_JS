@@ -1,5 +1,5 @@
 'use strict';
-//require('./testImportCSS.css');
+require('./testImportCSS.css');
 //import './testImportCSS.css'
 //require('../node_modules/js-datepicker/datepicker.css');
 

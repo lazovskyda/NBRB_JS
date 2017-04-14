@@ -1,11 +1,12 @@
 'use strict';
 
-var path = require('path');
-var BowerWebpackPlugin = require('bower-webpack-plugin');
+const path = require('path');
+const BowerWebpackPlugin = require('bower-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
     context: path.join(__dirname, 'src'),
-    entry: './app',
+    entry: './index',
     output: {
         path: path.join(__dirname, 'output'),
         filename: "main.js"
@@ -18,7 +19,20 @@ module.exports = {
     module:{
         loaders: [
             { test: /\.css$/, loader: "style-loader!css-loader" }
-        ]
-    }
 
+        ],
+        rules: [
+            {
+                test: /\.css$/,
+                use: ExtractTextPlugin.extract({
+                    fallback: "style-loader",
+                    use: "css-loader"
+                })
+            }
+        ]
+    },
+    plugins: [
+        new ExtractTextPlugin("styles.css")
+    ]
 };
+

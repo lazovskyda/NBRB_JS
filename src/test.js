@@ -3,5 +3,5 @@
 console.log("i am here");
 
 module.exports = function(){
-    console.log("i am here");
+    alert('i am here');
 };
